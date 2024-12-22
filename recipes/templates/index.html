@@ -1,0 +1,37 @@
+<!-- prettier-ignore -->
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block title %} Home Page
+{%endblock title %} 
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'css/index-dish.css' %}" />
+{% endblock extrahead %}
+<!-- prettier-ignore -->
+{% block content %}
+<div class="filters">
+  <input type="text" id="name-search" placeholder="Search by name..." />
+  <div class="tags-list">
+    {% for tag in tags %}
+    <button class="tag" data-tag="{{ tag.name|lower }}">{{ tag.name }}</button>
+    {% endfor %}
+  </div>
+</div>
+<div class="project-list">
+  {% for dish in dishes %}
+  <div
+    class="project"
+    data-name="{{ dish.title|lower }}"
+    data-tags="{{ dish.tags.all|join:', '|lower}}"
+  >
+    <h2><a href="{% url 'dish' dish.id %}">{{dish.title}}</a></h2>
+    <p>{{dish.ingredients}}</p>
+    <p>Tags: {{dish.tags.all|join:', '}}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}
+<!-- prettier-ignore -->
+{% block extra_js %}
+<script src="{% static 'js/index-dish.js' %}"></script>
+{% endblock extra_js %}
